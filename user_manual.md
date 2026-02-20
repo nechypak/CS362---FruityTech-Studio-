@@ -1,4 +1,4 @@
-# FruityTech Studio – User Manual  
+# FruityTech Studio - User Manual  
 
 ## 1. High-Level Description
 
