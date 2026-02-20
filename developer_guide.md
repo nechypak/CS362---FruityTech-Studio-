@@ -1,5 +1,4 @@
-# Developer Guide  
-**FruityTech Studio**
+# FruityTech Studio - Developer Guide  
 
 This document provides guidelines for developers who want to contribute to FruityTech Studio. It explains how to obtain the source code, understand the repository structure, build the software, run and add tests, and create release builds.
 
@@ -33,9 +32,7 @@ After cloning:
 4. Ensure the correct Unity version is installed (see below)
 5. Open the project
 
----
-
-## Development Environment Requirements
+### Development Environment Requirements
 
 - **Unity Editor Version:** 6000.3.6f1
 - **Git:** Required for version control  
@@ -142,8 +139,6 @@ FruityTech uses Unity's built-in Test Framework.
 4. Click 'Run All'.
 
 Test results will appear in the Test Runner window.
-
----
 
 ### Types of Tests
 
