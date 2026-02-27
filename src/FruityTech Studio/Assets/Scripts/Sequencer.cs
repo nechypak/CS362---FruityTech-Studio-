@@ -140,7 +140,6 @@ public class Sequencer : MonoBehaviour
     }
 private AudioSource GetPooledSource(double dspTimeNeeded, double clipLen)
     {
-        // 1) ищем свободный
         for (int i = 0; i < _pool.Count; i++)
         {
             int idx = (_poolIndex + i) % _pool.Count;
@@ -174,9 +173,6 @@ private AudioSource GetPooledSource(double dspTimeNeeded, double clipLen)
         return t % _loopDuration;
     }
 
-    /// <summary>
-    /// Optional: absolute DSP time since start (seconds).
-    /// </summary>
     public double GetSongTimeDsp()
     {
         if (!_isPlaying) return 0.0;

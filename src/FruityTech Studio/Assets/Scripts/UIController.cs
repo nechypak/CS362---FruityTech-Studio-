@@ -13,7 +13,7 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-        bpmLabel.text = "90 BPM"; // фикс
+        bpmLabel.text = "90 BPM"; 
 
         playStopButton.onClick.AddListener(() =>
         {
