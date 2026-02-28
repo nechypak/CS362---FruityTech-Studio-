@@ -32,7 +32,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           unityVersion: 6000.3.6f1
-          projectPath: src/FruityTech Studio
+          projectPath: "src/FruityTech Studio"
           testMode: all
 
         
@@ -69,7 +69,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           unityVersion: 6000.3.6f1
-          projectPath: src/FruityTech Studio
+          projectPath: "src/FruityTech Studio"
           targetPlatform: StandaloneWindows64
 
       - name: Upload Artifact
