@@ -20,8 +20,8 @@ jobs:
       - name: Cache Library
         uses: actions/cache@v3
         with:
-          path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          path: "src/FruityTech Studio/Library"
+          key: Library-${{ hashFiles('src/FruityTech Studio/Assets/**', 'src/FruityTech Studio/Packages/**', 'src/FruityTech Studio/ProjectSettings/**') }}
           restore-keys: Library-
 
       - name: Run Tests
@@ -30,8 +30,10 @@ jobs:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          GIT_CONFIG_EXTENSIONS: ""
         with:
           unityVersion: 6000.3.6f1
+          containerRegistryImageVersion: 2
           projectPath: "src/FruityTech Studio"
           testMode: all
 
@@ -57,8 +59,8 @@ jobs:
       - name: Cache Library
         uses: actions/cache@v3
         with:
-          path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          path: "src/FruityTech Studio/Library"
+          key: Library-${{ hashFiles('src/FruityTech Studio/Assets/**', 'src/FruityTech Studio/Packages/**', 'src/FruityTech Studio/ProjectSettings/**') }}
           restore-keys: Library-
 
       - name: Build
@@ -69,6 +71,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           unityVersion: 6000.3.6f1
+          containerRegistryImageVersion: 2
           projectPath: "src/FruityTech Studio"
           targetPlatform: StandaloneWindows64
 
