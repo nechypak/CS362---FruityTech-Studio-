@@ -31,8 +31,7 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          unityVersion: 6000.3.6f1
-          skipGitSetup: true
+          customImage: unityci/editor:ubuntu-6000.3.6f1-linux-il2cpp
           projectPath: "src/FruityTech Studio"
           testMode: all
 
@@ -69,10 +68,10 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          unityVersion: 6000.3.6f1
+          customImage: unityci/editor:ubuntu-6000.3.6f1-linux-il2cpp
           projectPath: "src/FruityTech Studio"
           targetPlatform: StandaloneWindows64
-          skipGitSetup: true
+          
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
