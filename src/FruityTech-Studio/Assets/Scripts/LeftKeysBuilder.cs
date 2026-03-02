@@ -15,9 +15,11 @@ public class LeftKeysBuilder : MonoBehaviour
 
     public void Build()
     {
+        // очистка
         for (int i = parent.childCount - 1; i >= 0; i--)
             Destroy(parent.GetChild(i).gameObject);
 
+        // сверху High, снизу Low
         for (int i = noteIdsLowToHigh.Length - 1; i >= 0; i--)
         {
             var go = Instantiate(labelPrefab, parent);
