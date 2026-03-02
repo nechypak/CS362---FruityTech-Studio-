@@ -78,11 +78,22 @@ jobs:
         run: |
           set -euo pipefail
           ROOT="${RUNNER_WORKSPACE%/*}/_actions"
-          TARGET="$(find "$ROOT" -path "*/game-ci/unity-test-runner/*/dist/platforms/ubuntu/set_gitcredential.sh" -print -quit)"
-          echo "Patching: $TARGET"
-          # Remove UTF-8 BOM if present
-          sed -i '1s/^\xEF\xBB\xBF//' "$TARGET"
-          head -n 1 "$TARGET"
+      
+          patch_one () {
+            local action="$1"
+            local target
+            target="$(find "$ROOT" -path "*/game-ci/${action}/*/dist/platforms/ubuntu/set_gitcredential.sh" -print -quit || true)"
+            if [[ -n "${target:-}" ]]; then
+              echo "Patching: $target"
+              sed -i '1s/^\xEF\xBB\xBF//' "$target"
+              head -n 1 "$target"
+            else
+              echo "No set_gitcredential.sh found for ${action} (skipping)"
+            fi
+          }
+
+          patch_one "unity-builder"
+          patch_one "unity-test-runner"
 
       - name: Build
         uses: game-ci/unity-builder@v4
