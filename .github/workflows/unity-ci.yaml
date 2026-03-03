@@ -105,6 +105,8 @@ jobs:
           unityVersion: 6000.3.6f1
           projectPath: "src/FruityTech-Studio"
           targetPlatform: StandaloneWindows64
+          buildName: FruityTech-Studio
+          buildsPath: build/FruityTech-Studio
           
 
       - name: Upload Artifact
