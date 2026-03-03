@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: PianoNoteMap_Default
   m_EditorClassIdentifier: Assembly-CSharp::PianoNoteMap
   rowClips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 092a0bf6d59b64ff0b79ed8953d2255b, type: 3}
+  - {fileID: 8300000, guid: bdf5e4770338a4f8e87b87e3c4d23e20, type: 3}
+  - {fileID: 8300000, guid: fbb01a8c1794347bca6dae7a08bddb34, type: 3}
+  - {fileID: 8300000, guid: cb04214f25c3e4804ad827ec20f84077, type: 3}
+  - {fileID: 8300000, guid: 60b07f6fd96434b60b82a6346cba63e7, type: 3}
+  - {fileID: 8300000, guid: 972f8b57a221146da892ab80761fa39c, type: 3}
+  - {fileID: 8300000, guid: 6653112f1fd634b2cb0072de11d5fc5b, type: 3}
+  - {fileID: 8300000, guid: fe0a37eacf94e4b12b16f87ed66a2fc0, type: 3}
+  - {fileID: 8300000, guid: be9de338defe6470fa4da00c7d9d7c67, type: 3}
+  - {fileID: 8300000, guid: 2e963b1270327415798be510de524817, type: 3}
+  - {fileID: 8300000, guid: 8dca6a1a746bb4e03856663df60989d1, type: 3}
+  - {fileID: 8300000, guid: 9cece1fff8f704b73883bb846e01e4f5, type: 3}
   volume: 0.8

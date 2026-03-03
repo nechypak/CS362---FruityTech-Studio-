@@ -59,6 +59,7 @@ After cloning:
 /reports
 README.md
 developer_guide.md
+user_manual.md
 ```
 
 ### `/Assets`
@@ -112,7 +113,7 @@ Contains weekly status reports.
 
 ## 3. Building the Software
 
-1. Open the project in Unity.
+1. Open the project in Unity, obtained in /src.
 2. Navigate to:
 
    File → Build Settings
