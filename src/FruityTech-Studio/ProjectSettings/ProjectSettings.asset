@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: 9c23ee2106dc248b5ba2f6bc1a042bd3
+  productGUID: d44e9a49531a64f2786b7b35ea049938
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: FruityTech Studio
+  productName: V2_FruityTech
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -515,7 +515,7 @@ PlayerSettings:
   ps4GarlicHeapSize: 2048
   ps4ProGarlicHeapSize: 2560
   playerPrefsMaxSize: 32768
-  ps4Passcode: HMjblovFDNUohkNYkhgSNksmWkEVYOiJ
+  ps4Passcode: pdfjv0c9ua3NfCuTyjzDqwQMNXCxQfi6
   ps4pnSessions: 1
   ps4pnPresence: 1
   ps4pnFriends: 1
@@ -604,14 +604,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: FruityTech Studio
+  metroPackageName: V2_FruityTech
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: FruityTech Studio
+  metroApplicationDescription: V2_FruityTech
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -682,10 +682,10 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 9af63f4c-e4f8-47a0-b069-1e2e6fc8fa98
+  cloudProjectId: d9cc21c9-7257-4598-9b2e-e307c0dadbd9
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: FruityTech Studio
+  projectName: V2_FruityTech
   organizationId: nklimfet
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

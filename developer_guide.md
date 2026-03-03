@@ -54,6 +54,7 @@ After cloning:
     /Tests
   /Prefabs
   /Resources
+/Releases  
 /Team Artifacts
 /reports
 README.md
@@ -97,6 +98,9 @@ Contains automated test cases using the Unity Test Framework.
 Includes:
 - Unit tests (Edit Mode)
 - Integration tests (Play Mode)
+
+### `/Releases`
+Contains builds for every version of the program.
 
 ### `/Team Artifacts`
 Contains planning documents, diagrams, and other materials.
