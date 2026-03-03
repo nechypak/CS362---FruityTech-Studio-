@@ -41,17 +41,19 @@ Use GitHub Actions as the default build/test workflow.
 7. Click `Build` and choose an output folder.
 
 ## How to Test Locally
-1. Open `src/FruityTech-Studio` in Unity `6000.3.6f1`.
-2. Open `Window > General > Test Runner`.
-3. Run all `Edit Mode` tests.
+1. Download appropriate build for your system in '/Releases'
+2. Open file
 4. Run all `Play Mode` tests.
-5. Verify all tests pass before merging.
+5. Verify all tests pass.
 
 ## Use Case Covered in Beta
 [UC01 - Create a music loop using sound objects](https://github.com/nechypak/CS362---FruityTech-Studio-/issues/3)
 
+
 ## Repository Layout
 - `src/FruityTech-Studio/` - Unity project source code
+- `Releases/` - Builds of every version
 - `reports/` - Weekly/milestone reports
 - `Team Artifacts/` - Team deliverables and project artifacts
 - `developer_guide.md` - Developer-focused workflow details
+- `user_manual.md` - user-faced manual of set up the working environment 

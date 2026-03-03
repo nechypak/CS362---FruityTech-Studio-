@@ -3,8 +3,7 @@ using System;
 [Serializable]
 public class NoteEvent
 {
-    public string noteId;      
-    public int stepIndex;       
-    public int lengthSteps = 4; 
-    public float velocity = 1f; 
+    public int row;          // 0..11
+    public int startStep;    // 0..loopSteps-1
+    public int lengthSteps;  // >=1
 }

@@ -105,15 +105,14 @@ You can assume familiarity with basic desktop UI interactions (clicking, draggin
 ### 4.1 Starting a New Composition
 
 1. Launch the application.
-2. Click **Start New Sandbox**.
-3. The interactive 2D sandbox will appear.
-4. A sound palette with available sound objects will be displayed.
+2. Observe main DAW's screen
+3. A sound palette with available sound objects will be displayed.
 
 ### 4.2 Placing Sound Objects
 
 1. Select a sound object from the sound palette.
-2. Drag it into the sandbox.
-3. Drop it in a valid location.
+2. Click on scrollable grid to place sound object
+3. Hit play button to hear the loop
 4. The system automatically:
     - Registers the sound
     - Synchronizes it to the global tempo
@@ -126,9 +125,12 @@ If placement is invalid, the system will reject it and provide feedback.
 Use the transport controls:
   - **Play** – Starts synchronized looping playback
   - **Stop** – Stops all playback
+  - **UnDo** - Reverse last action
+  - **LoopBack** - send playhead at the start of the loop
 
 All active sound objects will play in sync with the global tempo (BPM).
 
+## STILL UNDER DEVELOPMENT 
 ### 4.4 Editing Sound Properties
 
 1. Click on a placed sound object.

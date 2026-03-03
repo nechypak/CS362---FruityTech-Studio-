@@ -54,10 +54,12 @@ After cloning:
     /Tests
   /Prefabs
   /Resources
+/Releases  
 /Team Artifacts
 /reports
 README.md
 developer_guide.md
+user_manual.md
 ```
 
 ### `/Assets`
@@ -98,6 +100,9 @@ Includes:
 - Unit tests (Edit Mode)
 - Integration tests (Play Mode)
 
+### `/Releases`
+Contains builds for every version of the program.
+
 ### `/Team Artifacts`
 Contains planning documents, diagrams, and other materials.
 
@@ -108,7 +113,7 @@ Contains weekly status reports.
 
 ## 3. Building the Software
 
-1. Open the project in Unity.
+1. Open the project in Unity, obtained in /src.
 2. Navigate to:
 
    File → Build Settings
