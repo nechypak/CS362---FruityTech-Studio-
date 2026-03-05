@@ -3,8 +3,12 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
+
 public class Transport_Playhead_IntegrationTests
 {
+
+    // Tests that transport starts the engine, the engine time advances, and playhead controller uses that time to move the UI accordingly
+    // Tests transportController.cs and PlayheadController.cs
     [UnityTest]
     public IEnumerator TogglePlay_StartsEngine_AndPlayheadMoves()
     {

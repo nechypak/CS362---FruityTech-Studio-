@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PianoNoteMap_UnitTests
 {
+    // Tests PianoNoteMap.cs, specifically GetClipForRow()
     [Test]
     public void GetClipForRow_ClampsOutOfRangeRow()
     {

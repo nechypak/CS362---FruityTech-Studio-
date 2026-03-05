@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class PianoRollGridRenderer_ValidationTests
 {
+    // Tests PianoRollGridRenderer.cs, specifically Build()
     [Test]
     public void Build_SetsBackgroundSize_AndCreatesExpectedNumberOfLines()
     {

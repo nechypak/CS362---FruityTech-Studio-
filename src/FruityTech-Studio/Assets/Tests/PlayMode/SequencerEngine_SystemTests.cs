@@ -5,6 +5,8 @@ using UnityEngine.TestTools;
 
 public class SequencerEngine_SystemTests
 {
+    // Tests the engines runtime behavior
+    // Tests SequencerEngine.cs
     [UnityTest]
     public IEnumerator Awake_CreatesAudioPool_AndLoopBackResetsTime()
     {
