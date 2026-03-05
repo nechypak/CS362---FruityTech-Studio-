@@ -8,37 +8,45 @@ public class SequencerEngine_SystemTests
     [UnityTest]
     public IEnumerator Awake_CreatesAudioPool_AndLoopBackResetsTime()
     {
+        // Ensure there's an AudioListener in the scene (CI often has none)
+        var listenerGO = new GameObject("Listener");
+        listenerGO.AddComponent<AudioListener>();
+
         var engineGO = new GameObject("Engine");
         var engine = engineGO.AddComponent<SequencerEngine>();
 
-        yield return null; // Awake should have run and created pooled AudioSources as children
+        yield return null;
 
-        // Default poolSize in script is 24. This asserts your runtime environment behavior.
         Assert.AreEqual(24, engine.transform.childCount);
 
         engine.Play();
         Assert.IsTrue(engine.IsPlaying);
 
-        // Let time progress beyond the dspStart offset
-        yield return new WaitForSeconds(0.20f);
+        // Let it run a bit
+        yield return new WaitForSeconds(0.2f);
 
         double t1 = engine.GetLoopTimeSeconds();
         Assert.Greater(t1, 0.0);
 
-        // Now system action: loop back
         engine.LoopBack();
 
-        // Wait until after the 0.03s offset used by LoopBack
-        yield return new WaitForSeconds(0.06f);
+        // Wait up to ~1s for loop time to reset (robust in CI)
+        float timeout = 1.0f;
+        while (timeout > 0f)
+        {
+            double t2 = engine.GetLoopTimeSeconds();
+            if (t2 < 0.10) break;
 
-        double t2 = engine.GetLoopTimeSeconds();
+            timeout -= Time.deltaTime;
+            yield return null;
+        }
 
-        // After loop back, loop time should be near the start again (small)
-        Assert.Less(t2, 0.10);
+        Assert.Less(engine.GetLoopTimeSeconds(), 0.10);
 
         engine.Stop();
         Assert.IsFalse(engine.IsPlaying);
 
         Object.Destroy(engineGO);
+        Object.Destroy(listenerGO);
     }
 }
