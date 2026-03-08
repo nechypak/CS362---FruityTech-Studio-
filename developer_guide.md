@@ -76,7 +76,6 @@ Responsible for:
 - User interaction logic
 - Maintaining the composition of placed objects
 
-
 #### `/Assets/Scripts/Audio`
 Responsible for:
 - Audio playback
@@ -99,9 +98,6 @@ Contains automated test cases using the Unity Test Framework.
 Includes:
 - Unit tests (Edit Mode)
 - Integration tests (Play Mode)
-
-### `/Releases`
-Contains builds for every version of the program.
 
 ### `/Team Artifacts`
 Contains planning documents, diagrams, and other materials.
