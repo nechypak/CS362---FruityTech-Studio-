@@ -71,6 +71,16 @@ public class SequencerEngine : MonoBehaviour
         foreach (var src in _pool) src.Stop();
     }
 
+    public float GetBpm()
+    {
+        return bpm;
+    }
+
+    public void SetBpm(float newBpm)
+    {
+        bpm = Mathf.Max(1f, newBpm);
+    }
+
     public double GetLoopTime01()
     {
         if (!IsPlaying) return 0;
@@ -106,18 +116,15 @@ public class SequencerEngine : MonoBehaviour
         return src;
     }
 
-    // Button: jump to start of loop while playing
     public void LoopBack()
     {
         if (!IsPlaying)
             return;
 
-        // restart timing from "now" (small offset so scheduling is safe)
         _dspStart = AudioSettings.dspTime + 0.03;
         _nextScheduleDsp = _dspStart;
         _nextScheduleStep = 0;
 
-        // stop currently playing pooled sources to avoid overlap
         foreach (var src in _pool)
             src.Stop();
     }
@@ -131,7 +138,7 @@ public class SequencerEngine : MonoBehaviour
 
         double t = (AudioSettings.dspTime - _dspStart) % loopDuration;
         if (t < 0)
-                t += loopDuration;
+            t += loopDuration;
 
         return t;
     }
