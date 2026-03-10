@@ -14,9 +14,21 @@ public class HeaderSync : MonoBehaviour
     [SerializeField] private RectTransform bodyContent; // RollContent
     [SerializeField] private RectTransform bodyViewport; // Viewport
 
+    private float _lastBodyWidth = -1f;
+
     void LateUpdate()
     {
         if (!bodyScroll || !headerContent || !headerViewport || !bodyContent || !bodyViewport) return;
+
+        // Keep header width in sync with the scrollable body so bar numbers exist
+        float bodyWidth = bodyContent.rect.width;
+        if (bodyWidth > 0f && !Mathf.Approximately(_lastBodyWidth, bodyWidth))
+        {
+            var size = headerContent.sizeDelta;
+            size.x = bodyWidth;
+            headerContent.sizeDelta = size;
+            _lastBodyWidth = bodyWidth;
+        }
 
         // How far the body can scroll horizontally
         float bodyScrollableWidth = bodyContent.rect.width - bodyViewport.rect.width;
