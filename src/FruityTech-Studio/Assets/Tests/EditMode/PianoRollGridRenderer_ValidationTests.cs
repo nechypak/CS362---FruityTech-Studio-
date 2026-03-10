@@ -13,7 +13,6 @@ public class PianoRollGridRenderer_ValidationTests
 
         var linePrefabGO = new GameObject("LinePrefab");
         var linePrefabImg = linePrefabGO.AddComponent<Image>();
-        linePrefabGO.AddComponent<RectTransform>();
 
         var rendererGO = new GameObject("Renderer");
         var renderer = rendererGO.AddComponent<PianoRollGridRenderer>();

@@ -20,6 +20,9 @@ public class HeaderSync_UnitTests
         bodyContent.sizeDelta = new Vector2(1000, 100);
         bodyViewport.sizeDelta = new Vector2(400, 100);
 
+        // ScrollRect requires content/viewport before setting normalized positions.
+        scroll.content = bodyContent;
+        scroll.viewport = bodyViewport;
         scroll.horizontalNormalizedPosition = 0.5f;
 
         var syncGO = new GameObject();
