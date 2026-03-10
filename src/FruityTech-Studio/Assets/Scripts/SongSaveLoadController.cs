@@ -17,6 +17,8 @@ public class SongSaveLoadController : MonoBehaviour
     [Header("Options")]
     [SerializeField] private string defaultFileName = "MySong";
     [SerializeField] private string extension = "json";
+    [SerializeField] private bool useEditorFileDialog = true;
+    [SerializeField] private string saveFolderName = "Songs";
 
     public void SaveSong()
     {
@@ -26,27 +28,31 @@ public class SongSaveLoadController : MonoBehaviour
             return;
         }
 
-#if UNITY_EDITOR
         SongSaveData data = BuildSaveData();
 
-        string suggestedName = GetSafeFileName(GetSongTitleOrDefault());
-        string path = EditorUtility.SaveFilePanel(
-            "Save Song",
-            "",
-            suggestedName,
-            extension
-        );
+        string path = GetDefaultSavePath();
+
+#if UNITY_EDITOR
+        if (useEditorFileDialog)
+        {
+            string suggestedName = GetSafeFileName(GetSongTitleOrDefault());
+            path = EditorUtility.SaveFilePanel(
+                "Save Song",
+                "",
+                suggestedName,
+                extension
+            );
+        }
+#endif
 
         if (string.IsNullOrEmpty(path))
             return;
 
+        EnsureSaveDirectoryExists(path);
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(path, json);
 
         Debug.Log($"Song saved to: {path}");
-#else
-        Debug.LogWarning("SaveSong uses Unity Editor native picker only in this version.");
-#endif
     }
 
     public void LoadSong()
@@ -57,12 +63,18 @@ public class SongSaveLoadController : MonoBehaviour
             return;
         }
 
+        string path = GetDefaultSavePath();
+
 #if UNITY_EDITOR
-        string path = EditorUtility.OpenFilePanel(
-            "Load Song",
-            "",
-            extension
-        );
+        if (useEditorFileDialog)
+        {
+            path = EditorUtility.OpenFilePanel(
+                "Load Song",
+                "",
+                extension
+            );
+        }
+#endif
 
         if (string.IsNullOrEmpty(path))
             return;
@@ -85,9 +97,6 @@ public class SongSaveLoadController : MonoBehaviour
         ApplyLoadedSong(data);
 
         Debug.Log($"Song loaded from: {path}");
-#else
-        Debug.LogWarning("LoadSong uses Unity Editor native picker only in this version.");
-#endif
     }
 
     private SongSaveData BuildSaveData()
@@ -154,5 +163,23 @@ public class SongSaveLoadController : MonoBehaviour
             rawName = rawName.Replace(c, '_');
 
         return string.IsNullOrWhiteSpace(rawName) ? defaultFileName : rawName;
+    }
+
+    private string GetDefaultSavePath()
+    {
+        string safeName = GetSafeFileName(GetSongTitleOrDefault());
+        string ext = string.IsNullOrWhiteSpace(extension) ? "json" : extension.Trim();
+        if (!ext.StartsWith("."))
+            ext = "." + ext;
+
+        string folder = Path.Combine(Application.persistentDataPath, saveFolderName);
+        return Path.Combine(folder, safeName + ext);
+    }
+
+    private void EnsureSaveDirectoryExists(string path)
+    {
+        string dir = Path.GetDirectoryName(path);
+        if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
     }
 }
