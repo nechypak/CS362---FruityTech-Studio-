@@ -42,4 +42,8 @@ public class TutorialStep
     [Header("Arrow")]
     public TutorialArrowSide arrowSide = TutorialArrowSide.None;
     public Vector2 arrowOffset = Vector2.zero;
+
+    [Header("Popup Arrows")]
+    public bool showLeftArrow = false;
+    public bool showRightArrow = false;
 }

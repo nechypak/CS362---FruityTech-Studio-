@@ -83,6 +83,8 @@ public class TutorialManager : MonoBehaviour
             SkipTutorial
         );
 
+        popupView.SetArrowVisibility(step.showLeftArrow, step.showRightArrow);
+
         Canvas.ForceUpdateCanvases();
         popupView.SetAnchoredPosition(step.popupAnchoredPosition);
 
