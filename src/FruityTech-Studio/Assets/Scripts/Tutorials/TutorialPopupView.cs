@@ -16,6 +16,10 @@ public class TutorialPopupView : MonoBehaviour
     [SerializeField] private RectTransform popupRoot;
     [SerializeField] private RectTransform arrow;
 
+    [Header("Arrows")]
+    [SerializeField] private GameObject leftArrow;
+    [SerializeField] private GameObject rightArrow;
+
     private Action _onNext;
     private Action _onSkip;
 
@@ -64,7 +68,7 @@ public class TutorialPopupView : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void SetAnchoredPosition(Vector2 anchoredPosition)
+    public void SetAnchoredPosition(Vector2 anchoredPosition) 
     {
         Debug.Log("SetAnchoredPosition called with " + anchoredPosition);
 
@@ -124,4 +128,10 @@ public class TutorialPopupView : MonoBehaviour
                 break;
         }
     }
+    public void SetArrowVisibility(bool showLeft, bool showRight)
+    {
+        if (leftArrow != null) leftArrow.SetActive(showLeft);
+        if (rightArrow != null) rightArrow.SetActive(showRight);
+    }
+
 }
