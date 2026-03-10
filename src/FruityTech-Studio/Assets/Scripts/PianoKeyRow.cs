@@ -13,6 +13,6 @@ public class PianoKeyRow : MonoBehaviour, IPointerDownHandler
             return;
 
         // Clicking the key list auditions the active instrument at this row.
-        engine.PreviewNoteRow(semitone);
+        engine.PreviewNoteSemitone(semitone);
     }
 }

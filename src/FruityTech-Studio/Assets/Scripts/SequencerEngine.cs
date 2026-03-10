@@ -161,7 +161,12 @@ public class SequencerEngine : MonoBehaviour
 
     public void PreviewNoteRow(int row)
     {
-        PreviewInstrumentNote(_activeInstrument, row);
+        PreviewInstrumentNote(_activeInstrument, row, rowIsSemitone: false);
+    }
+
+    public void PreviewNoteSemitone(int semitone)
+    {
+        PreviewInstrumentNote(_activeInstrument, semitone, rowIsSemitone: true);
     }
     
     public float GetBpm()
@@ -202,7 +207,7 @@ public class SequencerEngine : MonoBehaviour
                 var e = instrumentEvents[i];
                 if (e.startStep != step) continue;
 
-                if (!TryGetPlaybackSettings(instrumentName, e.row, out var clip, out var pitch))
+                if (!TryGetPlaybackSettings(instrumentName, e.row, rowIsSemitone: false, out var clip, out var pitch))
                     continue;
 
                 var src = GetPooledSource();
@@ -214,13 +219,13 @@ public class SequencerEngine : MonoBehaviour
         }
     }
 
-    private void PreviewInstrumentNote(string instrumentName, int row)
+    private void PreviewInstrumentNote(string instrumentName, int row, bool rowIsSemitone)
     {
         float instrumentVolume = GetInstrumentVolume(instrumentName);
         if (instrumentVolume <= 0f)
             return;
 
-        if (!TryGetPlaybackSettings(instrumentName, row, out var clip, out var pitch))
+        if (!TryGetPlaybackSettings(instrumentName, row, rowIsSemitone, out var clip, out var pitch))
             return;
 
         var src = GetPooledSource();
@@ -238,16 +243,18 @@ public class SequencerEngine : MonoBehaviour
         return src;
     }
 
-    private bool TryGetPlaybackSettings(string instrumentName, int row, out AudioClip clip, out float pitch)
+    private bool TryGetPlaybackSettings(string instrumentName, int row, bool rowIsSemitone, out AudioClip clip, out float pitch)
     {
         clip = null;
         pitch = 1f;
+
+        int pitchRow = rowIsSemitone ? row : MapGridRowToPianoRow(row);
 
         // Drum instruments use one recorded sample and transpose it by semitones per row
         if (instrumentName == HiHatInstrument && hiHatClip != null)
         {
             clip = hiHatClip;
-            pitch = Mathf.Pow(2f, (row - hiHatBaseRow) / 12f);
+            pitch = Mathf.Pow(2f, (pitchRow - hiHatBaseRow) / 12f);
             return true;
         }
 
@@ -258,7 +265,7 @@ public class SequencerEngine : MonoBehaviour
         if (instrumentName == SnareInstrument && snareClip != null)
         {
             clip = snareClip;
-            pitch = Mathf.Pow(2f, (row - snareBaseRow) / 12f);
+            pitch = Mathf.Pow(2f, (pitchRow - snareBaseRow) / 12f);
             return true;
         }
 
@@ -268,8 +275,18 @@ public class SequencerEngine : MonoBehaviour
         if (pianoMap == null)
             return false;
 
-        clip = pianoMap.GetClipForRow(row);
+        clip = pianoMap.GetClipForRow(pitchRow);
         return clip != null;
+    }
+
+    private int MapGridRowToPianoRow(int row)
+    {
+        int count = pianoMap != null && pianoMap.rowClips != null && pianoMap.rowClips.Length > 0
+            ? pianoMap.rowClips.Length
+            : 12;
+
+        int clamped = Mathf.Clamp(row, 0, count - 1);
+        return (count - 1) - clamped;
     }
 
     // Button: jump to start of loop while playing
