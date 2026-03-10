@@ -5,6 +5,8 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
 {
     [Header("Refs")]
     [SerializeField] private RectTransform notesLayer;   // GridBackground/NotesLayer
+    [SerializeField] private RectTransform keyboardPanel;
+    [SerializeField] private RectTransform pianoRollViewport;
     [SerializeField] private SequencerEngine engine;
     [SerializeField] private UndoManager undo;           // optional (drag in scene)
 
@@ -16,6 +18,23 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
 
     [Header("Prefab")]
     [SerializeField] private NoteBlockView notePrefab;
+
+    private RectTransform _gridRect;
+
+    private void Awake()
+    {
+        _gridRect = (RectTransform)transform;
+        SyncNotesLayerToGrid();
+    }
+
+    private void OnRectTransformDimensionsChange()
+    {
+        if (!isActiveAndEnabled)
+            return;
+
+        SyncNotesLayerToGrid();
+        RebuildAllViews();
+    }
 
     // ---- Input ----
 
@@ -33,6 +52,7 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
 
     public void RebuildAllViews()
     {
+        SyncNotesLayerToGrid();
         ClearViews();
         foreach (var e in engine.events)
             SpawnView(e);
@@ -62,6 +82,9 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
 
         engine.events.Add(ev);
         undo?.RecordAdd(ev);
+        // Only preview a newly placed note while stopped so playback stays clean
+        if (!engine.IsPlaying)
+            engine.PreviewNoteRow(row);
 
         // For 1-step notes we can just spawn; but rebuild keeps it consistent.
         SpawnView(ev);
@@ -118,20 +141,29 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
         row = -1;
         step = -1;
 
+        if (_gridRect == null)
+            _gridRect = (RectTransform)transform;
+
         if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                (RectTransform)transform,
+                _gridRect,
                 eventData.position,
                 eventData.pressEventCamera,
                 out var local))
             return false;
 
-        var rect = ((RectTransform)transform).rect;
+        var rect = _gridRect.rect;
+        float gridHeight = GetGridHeight();
+        float currentCellW = GetCellWidth();
+        float currentCellH = GetCellHeight();
 
         float x = local.x - rect.xMin; // 0..width
-        float y = local.y - rect.yMin; // 0..height
+        float yFromTop = rect.yMax - local.y; // 0...height from top edge
 
-        step = Mathf.FloorToInt(x / cellW);
-        row  = Mathf.FloorToInt(y / cellH);
+        if (yFromTop < 0f || yFromTop > gridHeight)
+            return false;
+
+        step = Mathf.FloorToInt(x / currentCellW);
+        row  = Mathf.FloorToInt(yFromTop / currentCellH);
 
         if (step < 0 || step >= steps) return false;
         if (row  < 0 || row  >= rows)  return false;
@@ -143,19 +175,77 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
     {
         var view = Instantiate(notePrefab, notesLayer);
         view.boundEvent = e;
+        // Note blocks inherit the currently selected instrument's theme color
+        view.ApplyColor(engine.ActiveInstrumentColor);
 
         var rt = (RectTransform)view.transform;
-        rt.anchorMin = Vector2.zero;
-        rt.anchorMax = Vector2.zero;
-        rt.pivot = Vector2.zero;
+        float currentCellW = GetCellWidth();
+        float currentCellH = GetCellHeight();
+        rt.anchorMin = new Vector2(0f, 1f);
+        rt.anchorMax = new Vector2(0f, 1f);
+        rt.pivot = new Vector2(0f, 1f);
 
-        rt.anchoredPosition = new Vector2(e.startStep * cellW, e.row * cellH);
-        rt.sizeDelta = new Vector2(e.lengthSteps * cellW, cellH);
+        rt.anchoredPosition = new Vector2(e.startStep * currentCellW, -(e.row * currentCellH));
+        rt.sizeDelta = new Vector2(e.lengthSteps * currentCellW, currentCellH);
     }
 
     private void ClearViews()
     {
         for (int i = notesLayer.childCount - 1; i >= 0; i--)
             Destroy(notesLayer.GetChild(i).gameObject);
+    }
+
+    private float GetCellWidth()
+    {
+        return steps > 0 && _gridRect != null && _gridRect.rect.width > 0f
+            ? _gridRect.rect.width / steps
+            : cellW;
+    }
+
+    private float GetCellHeight()
+    {
+        return rows > 0 && GetGridHeight() > 0f
+            ? GetGridHeight() / rows
+            : cellH;
+    }
+
+    private float GetGridHeight()
+    {
+        if (pianoRollViewport != null && pianoRollViewport.rect.height > 0f)
+            return pianoRollViewport.rect.height;
+
+        if (keyboardPanel != null && keyboardPanel.rect.height > 0f)
+            return keyboardPanel.rect.height;
+
+        return _gridRect != null && _gridRect.rect.height > 0f
+            ? _gridRect.rect.height
+            : rows * cellH;
+    }
+
+    private void SyncNotesLayerToGrid()
+    {
+        if (notesLayer == null)
+            return;
+
+        if (_gridRect == null)
+            _gridRect = (RectTransform)transform;
+
+        var viewport = GetViewportRect();
+
+        notesLayer.anchorMin = new Vector2(0f, 1f);
+        notesLayer.anchorMax = new Vector2(0f, 1f);
+        notesLayer.pivot = new Vector2(0f, 1f);
+        notesLayer.anchoredPosition = Vector2.zero;
+        notesLayer.sizeDelta = new Vector2(
+            _gridRect.rect.width,
+            GetGridHeight());
+    }
+
+    private RectTransform GetViewportRect()
+    {
+        if (pianoRollViewport != null)
+            return pianoRollViewport;
+
+        return _gridRect != null ? _gridRect : (RectTransform)transform;
     }
 }
