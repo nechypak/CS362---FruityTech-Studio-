@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 073ba184d21114b2898e16f7ac14f09d
+guid: 15bb286cb6e250f4babfd6ad3c4ac049
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7816563344297238401
-    second: download_icon_transparent_corners_0
+      213: -2829485954036424615
+    second: Load Button_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,30 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: download_icon_transparent_corners_0
+      name: Load Button_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 28
-        width: 999
-        height: 992
+        x: 0
+        y: 0
+        width: 120
+        height: 120
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f70e2d26d0df58390800000000000000
-      internalID: -7816563344297238401
+      spriteID: 950a3bc1485abb8d0800000000000000
+      internalID: -2829485954036424615
       vertices: []
       indices: 
       edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      download_icon_transparent_corners_0: -7816563344297238401
+      Load Button_0: -2829485954036424615
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
