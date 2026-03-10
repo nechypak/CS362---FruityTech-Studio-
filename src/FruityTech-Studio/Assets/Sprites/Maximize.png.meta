@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3b8a84c004fd342b5b10524e55386863
+guid: cdbe5a863c1c09b459292826e4aba71b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8675040503521391541
-    second: png-clipart-computer-icons-exit-icon-miscellaneous-angle-thumbnail_0
+      213: 3523860083714448634
+    second: Maximize_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,30 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: png-clipart-computer-icons-exit-icon-miscellaneous-angle-thumbnail_0
+      name: Maximize_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 348
-        height: 348
+        width: 40
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5b3b488206fe36870800000000000000
-      internalID: 8675040503521391541
+      spriteID: afc5aff631447e030800000000000000
+      internalID: 3523860083714448634
       vertices: []
       indices: 
       edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      png-clipart-computer-icons-exit-icon-miscellaneous-angle-thumbnail_0: 8675040503521391541
+      Maximize_0: 3523860083714448634
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
