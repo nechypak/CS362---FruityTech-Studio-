@@ -5,6 +5,8 @@ public class PianoRollGridRenderer : MonoBehaviour
 {
     [Header("Assign in Inspector")]
     public RectTransform gridBackground;
+    public RectTransform keyboardPanel;
+    public RectTransform pianoRollViewport;
     public Image linePrefab; // prefab with 1x1 sprite
 
     [Header("Sizing")]
@@ -23,9 +25,18 @@ public class PianoRollGridRenderer : MonoBehaviour
     public Color bar  = new Color(90/255f, 110/255f, 140/255f, 1f);    // stronger
 
     [SerializeField] private UndoManager undo;
+    [SerializeField] private RectTransform notesLayer;
 
     void Awake()
     {
+        Build();
+    }
+
+    private void OnRectTransformDimensionsChange()
+    {
+        if (!isActiveAndEnabled)
+            return;
+
         Build();
     }
 
@@ -39,18 +50,32 @@ public class PianoRollGridRenderer : MonoBehaviour
         for (int i = gridBackground.childCount - 1; i >= 0; i--)
             DestroyImmediate(gridBackground.GetChild(i).gameObject);
 
-        // Size background to exact grid size
+        float currentRowHeight = GetRowHeight();
+        float currentStepWidth = GetStepWidth();
+
+        // Size background to the current viewport so the grid redraws with layout changes.
         gridBackground.anchorMin = new Vector2(0, 1);
         gridBackground.anchorMax = new Vector2(0, 1);
         gridBackground.pivot = new Vector2(0, 1);
         gridBackground.anchoredPosition = Vector2.zero;
-        gridBackground.sizeDelta = new Vector2(steps * stepWidth, rows * rowHeight);
+        gridBackground.sizeDelta = new Vector2(steps * currentStepWidth, rows * currentRowHeight);
+
+        if (notesLayer != null)
+        {
+            notesLayer.anchorMin = new Vector2(0, 1);
+            notesLayer.anchorMax = new Vector2(0, 1);
+            notesLayer.pivot = new Vector2(0, 1);
+            notesLayer.anchoredPosition = Vector2.zero;
+            notesLayer.sizeDelta = gridBackground.sizeDelta;
+        }
+
+        SyncKeyboardPanelHeight();
 
         // Horizontal lines
         for (int r = 0; r <= rows; r++)
         {
-            float y = -r * rowHeight;
-            CreateLine($"H_{r}", 0, y, steps * stepWidth, 2f, thin);
+            float y = -r * currentRowHeight;
+            CreateLine($"H_{r}", 0, y, steps * currentStepWidth, 2f, thin);
         }
 
         // Vertical lines
@@ -58,7 +83,7 @@ public class PianoRollGridRenderer : MonoBehaviour
 
         for (int s = 0; s <= steps; s++)
         {
-            float x = s * stepWidth;
+            float x = s * currentStepWidth;
 
             Color c = thin;
             float w = 2f;
@@ -66,7 +91,7 @@ public class PianoRollGridRenderer : MonoBehaviour
             if (s % stepsPerBar == 0) { c = bar;  w = 3f; }
             else if (s % stepsPerBeat == 0) { c = beat; w = 2.5f; }
 
-            CreateLine($"V_{s}", x, 0, w, rows * rowHeight, c);
+            CreateLine($"V_{s}", x, 0, w, rows * currentRowHeight, c);
         }
     }
 
@@ -82,5 +107,38 @@ public class PianoRollGridRenderer : MonoBehaviour
         rt.pivot = new Vector2(0, 1);
         rt.anchoredPosition = new Vector2(x, y);
         rt.sizeDelta = new Vector2(w, h);
+    }
+
+    private float GetRowHeight()
+    {
+        if (rows <= 0)
+            return rowHeight;
+
+        float availableHeight = pianoRollViewport != null && pianoRollViewport.rect.height > 0f
+            ? pianoRollViewport.rect.height
+            : keyboardPanel != null && keyboardPanel.rect.height > 0f
+                ? keyboardPanel.rect.height
+            : rows * rowHeight;
+
+        return availableHeight / rows;
+    }
+
+    private float GetStepWidth()
+    {
+        return stepWidth;
+    }
+
+    private void SyncKeyboardPanelHeight()
+    {
+        if (keyboardPanel == null || pianoRollViewport == null || pianoRollViewport.rect.height <= 0f)
+            return;
+
+        float viewportHeight = pianoRollViewport.rect.height;
+        var layoutElement = keyboardPanel.GetComponent<LayoutElement>();
+        if (layoutElement != null)
+        {
+            layoutElement.minHeight = viewportHeight;
+            layoutElement.preferredHeight = viewportHeight;
+        }
     }
 }

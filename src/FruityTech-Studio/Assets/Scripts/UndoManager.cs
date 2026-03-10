@@ -3,27 +3,41 @@ using UnityEngine;
 
 public class UndoManager : MonoBehaviour
 {
-    public enum ActionType { Add, Remove }
+    // InstrumentDelete restores a removed bottom instrument row plus its loop state
+    public enum ActionType { Add, Remove, InstrumentDelete }
 
-    public struct NoteAction
+    public sealed class UndoAction
     {
         public ActionType type;
         public NoteEvent note; // snapshot
+        public SequencerEngine.InstrumentState instrumentState;
     }
 
     [SerializeField] private SequencerEngine engine;
     [SerializeField] private PianoRollGrid grid; // so we can rebuild visuals after undo
 
-    private readonly Stack<NoteAction> _stack = new();
+    private readonly Stack<UndoAction> _stack = new();
 
     public void RecordAdd(NoteEvent n)
     {
-        _stack.Push(new NoteAction { type = ActionType.Add, note = Clone(n) });
+        _stack.Push(new UndoAction { type = ActionType.Add, note = Clone(n) });
     }
 
     public void RecordRemove(NoteEvent n)
     {
-        _stack.Push(new NoteAction { type = ActionType.Remove, note = Clone(n) });
+        _stack.Push(new UndoAction { type = ActionType.Remove, note = Clone(n) });
+    }
+
+    public void RecordInstrumentDelete(SequencerEngine.InstrumentState state)
+    {
+        if (state == null)
+            return;
+
+        _stack.Push(new UndoAction
+        {
+            type = ActionType.InstrumentDelete,
+            instrumentState = state
+        });
     }
 
     public void Undo()
@@ -32,7 +46,12 @@ public class UndoManager : MonoBehaviour
 
         var act = _stack.Pop();
 
-        if (act.type == ActionType.Add)
+        if (act.type == ActionType.InstrumentDelete)
+        {
+            // Restoring an instrument also restores its notes, volume, mute, and visibility
+            engine.RestoreInstrumentState(act.instrumentState);
+        }
+        else if (act.type == ActionType.Add)
         {
             // Undo an Add => remove that note
             RemoveMatching(engine, act.note);
