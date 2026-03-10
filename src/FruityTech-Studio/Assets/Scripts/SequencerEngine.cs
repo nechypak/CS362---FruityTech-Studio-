@@ -163,6 +163,16 @@ public class SequencerEngine : MonoBehaviour
     {
         PreviewInstrumentNote(_activeInstrument, row);
     }
+    
+    public float GetBpm()
+    {
+        return bpm;
+    }
+
+    public void SetBpm(float newBpm)
+    {
+        bpm = Mathf.Max(1f, newBpm);
+    }
 
     public double GetLoopTime01()
     {
