@@ -104,9 +104,6 @@ Use GitHub Actions as the default build/test workflow.
 1. Run all `Play Mode` tests.
 2. Verify all tests pass.
 
-## Use Case Covered in Beta
-[UC01 - Create a music loop using sound objects](https://github.com/nechypak/CS362---FruityTech-Studio-/issues/3)
-
 ## Repository Layout
 - `src/FruityTech-Studio/` - Unity project source code
 - `reports/` - Weekly/milestone reports
