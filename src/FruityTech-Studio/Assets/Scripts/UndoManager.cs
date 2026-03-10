@@ -8,11 +8,12 @@ public class UndoManager : MonoBehaviour
     public struct NoteAction
     {
         public ActionType type;
-        public NoteEvent note; // snapshot
+        public NoteEvent note;
     }
 
     [SerializeField] private SequencerEngine engine;
-    [SerializeField] private PianoRollGrid grid; // so we can rebuild visuals after undo
+    [SerializeField] private PianoRollGrid grid;
+    [SerializeField] private TutorialManager tutorialManager;
 
     private readonly Stack<NoteAction> _stack = new();
 
@@ -34,18 +35,18 @@ public class UndoManager : MonoBehaviour
 
         if (act.type == ActionType.Add)
         {
-            // Undo an Add => remove that note
             RemoveMatching(engine, act.note);
         }
         else
         {
-            // Undo a Remove => add it back (if no overlap)
             if (!WouldOverlap(engine, act.note))
                 engine.events.Add(Clone(act.note));
         }
 
         if (grid != null)
-            grid.RebuildAllViews(); // refresh UI blocks
+            grid.RebuildAllViews();
+
+        tutorialManager?.NotifyUndoUsed();
     }
 
     private static NoteEvent Clone(NoteEvent n)

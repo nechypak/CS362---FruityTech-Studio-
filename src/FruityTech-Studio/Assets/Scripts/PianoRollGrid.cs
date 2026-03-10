@@ -4,9 +4,10 @@ using UnityEngine.EventSystems;
 public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
 {
     [Header("Refs")]
-    [SerializeField] private RectTransform notesLayer;   // GridBackground/NotesLayer
+    [SerializeField] private RectTransform notesLayer;
     [SerializeField] private SequencerEngine engine;
-    [SerializeField] private UndoManager undo;           // optional (drag in scene)
+    [SerializeField] private UndoManager undo;
+    [SerializeField] private TutorialManager tutorialManager;
 
     [Header("Grid")]
     [SerializeField] private int rows = 12;
@@ -16,8 +17,6 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
 
     [Header("Prefab")]
     [SerializeField] private NoteBlockView notePrefab;
-
-    // ---- Input ----
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -29,8 +28,6 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
         ToggleNote(row, step);
     }
 
-    // ---- Public API ----
-
     public void RebuildAllViews()
     {
         ClearViews();
@@ -38,18 +35,14 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
             SpawnView(e);
     }
 
-    // ---- Core behavior ----
-
     private void ToggleNote(int row, int step)
     {
-        // If there is a note occupying this cell -> remove it
         if (TryRemoveAt(row, step))
         {
             RebuildAllViews();
             return;
         }
 
-        // Otherwise add a 1-step note
         var ev = new NoteEvent
         {
             row = row,
@@ -62,8 +55,8 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
 
         engine.events.Add(ev);
         undo?.RecordAdd(ev);
+        tutorialManager?.NotifyNotePlaced();
 
-        // For 1-step notes we can just spawn; but rebuild keeps it consistent.
         SpawnView(ev);
     }
 
@@ -76,7 +69,6 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
 
             if (step >= e.startStep && step < e.startStep + e.lengthSteps)
             {
-                // snapshot for undo BEFORE removing
                 var removed = new NoteEvent
                 {
                     row = e.row,
@@ -105,13 +97,11 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
             int a0 = e.startStep;
             int a1 = e.startStep + e.lengthSteps;
 
-            if (a0 < b1 && b0 < a1) // overlap
+            if (a0 < b1 && b0 < a1)
                 return true;
         }
         return false;
     }
-
-    // ---- UI helpers ----
 
     private bool TryGetCellFromPointer(PointerEventData eventData, out int row, out int step)
     {
@@ -127,14 +117,14 @@ public class PianoRollGrid : MonoBehaviour, IPointerDownHandler
 
         var rect = ((RectTransform)transform).rect;
 
-        float x = local.x - rect.xMin; // 0..width
-        float y = local.y - rect.yMin; // 0..height
+        float x = local.x - rect.xMin;
+        float y = local.y - rect.yMin;
 
         step = Mathf.FloorToInt(x / cellW);
-        row  = Mathf.FloorToInt(y / cellH);
+        row = Mathf.FloorToInt(y / cellH);
 
         if (step < 0 || step >= steps) return false;
-        if (row  < 0 || row  >= rows)  return false;
+        if (row < 0 || row >= rows) return false;
 
         return true;
     }
